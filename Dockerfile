@@ -3,16 +3,11 @@ FROM node:18-slim
 # 作業ディレクトリの設定
 WORKDIR /app
 
-# 依存関係のコピーとインストール
-COPY package*.json ./
-
-# スクリプトフォルダをコピー（重要: npm installの前に追加）
-COPY scripts/ ./scripts/
-
-# FFmpegのインストール（直接Dockerfileに記述）
+# FFmpegを直接インストール
 RUN apt-get update && apt-get install -y ffmpeg
 
-# 依存関係のインストール
+# 依存関係のコピーとインストール
+COPY package*.json ./
 RUN npm install
 
 # アプリケーションファイルのコピー
