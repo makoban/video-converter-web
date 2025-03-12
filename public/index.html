@@ -13,6 +13,7 @@
       name="description"
       content="動画を指定サイズに変換し、回転・配置するオンラインツール"
     />
+    <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.2/dist/ffmpeg-core.js"></script>
   </head>
   <body>
     <div class="container my-4">
@@ -64,6 +65,9 @@
                 </div>
               </form>
 
+              <!-- 圧縮情報の表示エリア -->
+              <div id="compression-info" class="mb-4 d-none"></div>
+
               <div id="file-list-container" class="mb-4 d-none">
                 <h5><i class="bi bi-files me-2"></i>選択されたファイル</h5>
                 <ul id="file-list" class="list-group"></ul>
@@ -105,6 +109,9 @@
             </div>
             <div class="card-footer text-center py-3">
               <p class="mb-0 text-muted">© 2025 動画サイズ変換ツール - Web版</p>
+              <p class="small text-muted mt-2">
+                大きなファイルは自動的に圧縮されます
+              </p>
             </div>
           </div>
         </div>
