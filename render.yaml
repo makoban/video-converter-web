@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: video-converter-web
+    env: docker
+    repo: https://github.com/yourusername/video-converter-web.git
+    region: oregon
+    plan: free
+    branch: main
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
