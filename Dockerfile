@@ -5,10 +5,15 @@ WORKDIR /app
 
 # 依存関係のコピーとインストール
 COPY package*.json ./
-RUN npm install
 
-# FFmpegのインストール
+# スクリプトフォルダをコピー（重要: npm installの前に追加）
+COPY scripts/ ./scripts/
+
+# FFmpegのインストール（直接Dockerfileに記述）
 RUN apt-get update && apt-get install -y ffmpeg
+
+# 依存関係のインストール
+RUN npm install
 
 # アプリケーションファイルのコピー
 COPY . .
