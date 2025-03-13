@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", function () {
   let filesReadyToUpload = false;
 
   // 動画圧縮のための設定
-  const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
-  const TARGET_SIZE = 95 * 1024 * 1024; // 少し余裕を持たせて95MB
+  const MAX_FILE_SIZE = 30 * 1024 * 1024; // 100MB
+  const TARGET_SIZE = 28 * 1024 * 1024; // 少し余裕を持たせて28MB
   const MAX_WIDTH = 1280; // 横幅の最大値
   const MAX_HEIGHT = 720; // 高さの最大値
 
@@ -189,17 +189,17 @@ document.addEventListener("DOMContentLoaded", function () {
     if (needsCompression && compressionInfo) {
       compressionInfo.classList.remove("d-none");
       compressionInfo.innerHTML = `
-        <div class="alert alert-warning">
-          <h5><i class="bi bi-exclamation-triangle me-2"></i>大きなファイルが検出されました</h5>
-          <p>100MB以上のファイルは自動的に圧縮されます。しばらくお待ちください。</p>
-          <p>圧縮処理にはお使いのブラウザとデバイスの性能によって時間がかかる場合があります。</p>
-          <div class="progress mt-2" id="overall-compression-progress">
-            <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"
-                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-          <p id="overall-compression-status" class="text-center mt-2">圧縮の準備中...</p>
+      <div class="alert alert-warning">
+        <h5><i class="bi bi-exclamation-triangle me-2"></i>大きなファイルが検出されました</h5>
+        <p>30MB以上のファイルは自動的に圧縮されます。しばらくお待ちください。</p>
+        <p>圧縮処理にはお使いのブラウザとデバイスの性能によって時間がかかる場合があります。</p>
+        <div class="progress mt-2" id="overall-compression-progress">
+          <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"
+              aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
-      `;
+        <p id="overall-compression-status" class="text-center mt-2">圧縮の準備中...</p>
+      </div>
+    `;
 
       // 自動的に圧縮を開始
       startCompression();
@@ -466,6 +466,17 @@ document.addEventListener("DOMContentLoaded", function () {
   // フォーム送信（ファイル処理開始）
   uploadForm.addEventListener("submit", async function (e) {
     e.preventDefault();
+
+    // ファイルサイズの最終チェック
+    const oversizedFiles = compressedFiles.filter(
+      (file) => file && file.size > 30 * 1024 * 1024
+    );
+    if (oversizedFiles.length > 0) {
+      alert(
+        "30MB以上のファイルは処理できません。より小さなファイルを選択するか、外部ツールで圧縮してください。"
+      );
+      return;
+    }
 
     if (selectedFiles.length === 0) {
       alert("処理するファイルを選択してください。");
